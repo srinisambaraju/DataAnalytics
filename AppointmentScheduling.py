@@ -9,10 +9,11 @@ my_db = mysql.connector.connect(
     passwd="!Ramani@72",
     database="acuityscheduling"
 )
-
+mindate = "02/01/2019"
+maxdate = "02/02/2019"
 my_cursor = my_db.cursor()
 url = "https://acuityscheduling.com/api/v1/appointments"
-querystring = {"minDate": "02/01/2019", "maxDate": "02/02/2019"}
+querystring = {"minDate": mindate, "maxDate": maxdate}
 payload = ""
 headers = {
     'Authorization': "Basic MTcwNDI5NjM6ZTEyYzQ3YWJlMDNjMDI0OGY0MzllNjgyZWQyMjgzMzA=",
@@ -24,8 +25,11 @@ headers = {
 # email and email has the phone no, you need to talk to Acuity to correct or the Reps who are entering the data
 # to enter it properly
 response1 = requests.request("GET", url, data=payload, headers=headers, params=querystring)
+
+columnList = ['id', 'firstName', 'lastName', 'phone', 'email', 'date', 'canceled', 'canClientCancel']
+
 sql_insert_query = 'Insert into appointmentScheduling1 (ID, FirstName, LastName, Phone, Email, AppointmentDate, ' \
-                   'Canceled, CanClientCancel) values (%s, %s, %s, %s, %s, %s, %s, %s)'
+                    'Canceled, CanClientCancel) values (%s, %s, %s, %s, %s, %s, %s, %s)'
 
 # This is the actual column list that matches the DB columns created as part of SQL Script, see the names of the columns
 # I created are matching the variable columnList. I am using that columnList to loop through to create sQl query
@@ -43,14 +47,6 @@ sql_insert_query = 'Insert into appointmentScheduling1 (ID, FirstName, LastName,
 #   );
 
 # Column list is created which matches the db column names as you can see above
-columnList = ['ID', 'FirstName', 'LastName', 'Phone', 'Email', 'AppointmentDate', 'Canceled', 'CanClientCancel']
-
-# The below variable is to retrieve the value from the json output from the api
-# in the below dictionary the first value before the colon is the actual DB column and the value after the colon
-# is the value of that you need to use to extract it from json output
-columnsDict = {'ID': 'id', 'FirstName':  'firstName', 'LastName': 'lastName', 'Phone': 'phone', 'Email': 'email',
-               'AppointmentDate': 'date', 'Canceled': 'canceled', 'CanClientCancel': 'canClientCancel'}
-row_list = []
 
 
 def insert_appointment_scheduling_data(api_data):
@@ -63,7 +59,7 @@ def insert_appointment_scheduling_data(api_data):
         # sql_query += '( '
         row_tuple = ()
         for col_name in columnList:
-            row_tuple += (item[columnsDict[col_name]],)
+            row_tuple += (item[col_name],)
         row_data.append(row_tuple)
     return row_data
 
@@ -74,7 +70,3 @@ row_data_values = insert_appointment_scheduling_data(response1.json())
 my_cursor.executemany(sql_insert_query, row_data_values)
 my_db.commit()
 print(str(len(response1.json())) + ' rows of data is inserted into the database successfully')
-
-
-
-
