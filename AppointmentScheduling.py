@@ -28,6 +28,9 @@ response1 = requests.request("GET", url, data=payload, headers=headers, params=q
 
 columnList = ['id', 'firstName', 'lastName', 'phone', 'email', 'date', 'canceled', 'canClientCancel']
 
+sql_query = 'Insert into appointmentScheduling1 ('
+
+
 sql_insert_query = 'Insert into appointmentScheduling1 (ID, FirstName, LastName, Phone, Email, AppointmentDate, ' \
                     'Canceled, CanClientCancel) values (%s, %s, %s, %s, %s, %s, %s, %s)'
 
