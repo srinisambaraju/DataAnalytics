@@ -6,7 +6,7 @@ import tensorflow as tf
 observations = 1000
 
 xs = np.random.uniform(low=-10, high=10, size=(observations, 1))
-zs = np.random.uniform(10, 10, size=(observations, 1))
+zs = np.random.uniform(-10, 10, (observations, 1))
 
 generated_inputs = np.column_stack((xs, zs))
 
@@ -43,9 +43,9 @@ sess = tf.InteractiveSession()
 
 # Initializing variabile
 
-initialize = tf.global_variables_initializer()
+initializer = tf.global_variables_initializer()
 
-sess.run(initialize)
+sess.run(initializer)
 
 training_data = np.load('TF_Test.npz')
 
@@ -55,8 +55,8 @@ for i in range(100):
     print(curr_loss)
 
 
-out = sess.run([outputs], feed_dict={inputs: training_data['inputs']})
-plt.plot(np.squeeze(out), np.squeeze(training_data['targets']))
-plt.xlabel('Outputs')
-plt.ylabel('Targets')
-plt.show()
+# out = sess.run([outputs], feed_dict={inputs: training_data['inputs']})
+# plt.plot(np.squeeze(out), np.squeeze(training_data['targets']))
+# plt.xlabel('Outputs')
+# plt.ylabel('Targets')
+# plt.show()
