@@ -55,8 +55,8 @@ for i in range(100):
     print(curr_loss)
 
 
-# out = sess.run([outputs], feed_dict={inputs: training_data['inputs']})
-# plt.plot(np.squeeze(out), np.squeeze(training_data['targets']))
-# plt.xlabel('Outputs')
-# plt.ylabel('Targets')
-# plt.show()
+out = sess.run([outputs], feed_dict={inputs: training_data['inputs']})
+plt.plot(np.squeeze(out), np.squeeze(training_data['targets']))
+plt.xlabel('Outputs')
+plt.ylabel('Targets')
+plt.show()

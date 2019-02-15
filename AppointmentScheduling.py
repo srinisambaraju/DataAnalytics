@@ -61,6 +61,12 @@ def insert_appointment_scheduling_data(api_data):
         # The below loop is going through the column list again and trying to fetch the value
         # sql_query += '( '
         row_tuple = ()
+        sql_fetch = 'Select * from appointmentScheduling1 where Id = ' + str(item['id'])
+        my_cursor.execute(sql_fetch)
+        records = my_cursor.fetchall()
+        if int(my_cursor.rowcount) > 0:
+            print("There is a row already")
+            continue
         for col_name in columnList:
             row_tuple += (item[col_name],)
         row_data.append(row_tuple)
@@ -72,4 +78,5 @@ def insert_appointment_scheduling_data(api_data):
 row_data_values = insert_appointment_scheduling_data(response1.json())
 my_cursor.executemany(sql_insert_query, row_data_values)
 my_db.commit()
+print(str(len(row_data_values)) + ' is the number of rows that might have been inserted')
 print(str(len(response1.json())) + ' rows of data is inserted into the database successfully')
