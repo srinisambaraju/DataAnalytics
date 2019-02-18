@@ -1,4 +1,5 @@
 import numpy as np
+import requests
 
 columnList = ['id', 'firstName', 'lastName', 'phone', 'email', 'date', 'canceled', 'canClientCancel']
 
@@ -20,10 +21,19 @@ print(np.dot(x, y))
 
 columnList = ['id', 'firstName', 'lastName', 'phone', 'email', 'date', 'canceled', 'canClientCancel']
 
-sql_query = 'Insert into appointmentScheduling1 ('
-col_tuple = ()
-for col in columnList:
-    col_tuple += '\'' + col + '\''
 
-    # col_tuple += col
-print(col_tuple)
+url = "https://dataconnect.iqmetrix.net/reports/inventorylistingreport"
+
+querystring = {"LanguageCode": "", "LocationTypeIDs": "19", "LocationType": "Store", "BinStatus": "10", "QtyStatus": "4"
+               , "BlindInventory": "", "CategoryNumber": ""}
+
+payload = ""
+headers = {
+    'Authorization': "Basic ZGF0YS5hcGkuYWNjZXNzQHNpbXBseW1hYzpkY2NQR3pEdDR2ekhyY3U=",
+    'cache-control': "no-cache",
+    'Postman-Token': "95c57c62-807f-4839-811b-30dcda2aea11"
+    }
+
+response = requests.request("GET", url, data=payload, headers=headers, params=querystring)
+
+print(response.text)

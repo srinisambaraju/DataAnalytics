@@ -18,9 +18,8 @@ payload = ""
 headers = {
     'Authorization': "Basic MTcwNDI5NjM6ZTEyYzQ3YWJlMDNjMDI0OGY0MzllNjgyZWQyMjgzMzA=",
     'cache-control': "no-cache",
-    'Postman-Token': "95d7e05b-22f2-4ecd-b967-17251b5c3633"
-
     }
+#     'Postman-Token': "95d7e05b-22f2-4ecd-b967-17251b5c3633"
 # The below is the response object from Acuity, the data is sometimes wrong for example in some cases the Phone no has
 # email and email has the phone no, you need to talk to Acuity to correct or the Reps who are entering the data
 # to enter it properly
