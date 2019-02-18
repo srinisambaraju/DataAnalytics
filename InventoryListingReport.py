@@ -192,6 +192,10 @@ store_id_values, row_count = insert_store_data_into_stores_table()
 district_id_values = get_district_ids()
 
 # The below loop is going through those various districts and get's the inventory and stores them in the DB
+# Deleting all the data from the table
+my_cursor.execute('Truncate table inventorylistinstores')
+my_db.commit()
+
 for district in district_id_values:
     insert_query, inventory_row_data = get_inventory_product_list_for_individual_districts(str(district))
     # The below statement is going to insert the left out rows that we did not insert above
