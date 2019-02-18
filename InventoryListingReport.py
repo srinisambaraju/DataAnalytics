@@ -26,13 +26,8 @@ headers = {
 #     PRIMARY KEY (StoreId)
 # );
 
-
-# url_for_inventory = 'https://dataconnect.iqmetrix.net/reports/inventorylistingreport'
-
-# querystring = {"LanguageCode":"","LocationTypeIDs":"19","LocationType":"Store","BinStatus":"10","QtyStatus":"4",
-#                "BlindInventory":"","CategoryNumber":"%0A"}
-
-
+# Function to retrieve the details of the various stores and store it in the DB, currently we are not using the data
+# in that table
 
 
 def insert_store_data_into_stores_table():
@@ -69,34 +64,69 @@ def insert_store_data_into_stores_table():
     my_db.commit()
     return store_id_values, len(row_data)
 
+# Function to retrieve the details of the districts for which we need to pull the inventory data
+
 
 def get_district_ids():
+
+    # region Details needed for District ID's
+
     url = "https://dataconnect.iqmetrix.net/lists/LocationIDs"
-
     querystring = {"LocationType": "District", "LocationTypeIDs": "", "LanguageCode": ""}
-
     payload = ""
+    response = requests.request("GET", url, data=payload, headers=headers, params=querystring)
 
-    response = requests.request("GET", url, data=payload, headers=headers,params=querystring)
+    # endregion
     district_list = []
     print(len(response.json()))
-    for district in response.json():
-        print(district['ID'])
-        district_list.append(district['ID'])
+    for district_obj in response.json():
+        district_list.append(district_obj['ID'])
     return district_list
 
+# Function to retrieve the inventory product list for individual districts
 
-def get_inventory_product_list_for_individual_stores(district_id):
+
+def get_inventory_product_list_for_individual_districts(district_id):
+
+    # CREATE TABLE inventorylistinstores (
+    #   DistrictName varchar(100) NOT NULL,
+    #   RegionName varchar(50) NOT NULL,
+    #   ChannelName varchar(50) NOT NULL,
+    #   WriteOff binary NULL,
+    #   NoSale binary NULL,
+    #   VendorPartNumber varchar(100) NULL,
+    #   ManufacturerPartNumber varchar(100) NULL,
+    #   DiscontinuedDate date NULL,
+    #   BinStatus varchar(50) NULL,
+    #   Quantity mediumint NULL,
+    #   SerialNumber varchar(50) NULL,
+    #   StoreTypeName varchar(100) NOT NULL,
+    #   DoNotOrder binary NULL,
+    #   DateEOL date NULL,
+    #   IsUsed  binary NULL,
+    #   SpecialOrder binary NULL,
+    #   ProductIdentifier varchar(100) NULL,
+    #   TotalCost float NULL,
+    #   ProductName varchar(100) NULL,
+    #   StoreName varchar(100) NULL,
+    #   VendorName varchar(100) NULL,
+    #   UnitCost float NULL,
+    #   CategoryPath varchar(10000) NULL,
+    #   WarehouseLocation varchar(100) NULL,
+    #   RefundPeriodLength int NULL,
+    #   BarCode varchar(10000) NULL
+    #   )
+
+    # region Details of the inventory rest api call
     url_for_inventory = 'https://dataconnect.iqmetrix.net/reports/inventorylistingreport'
     payload1 = ""
-    headers1 = {
-        'Authorization': "Basic ZGF0YS5hcGkuYWNjZXNzQHNpbXBseW1hYzpkY2NQR3pEdDR2ekhyY3U=",
-        'cache-control': "no-cache",
-        'Postman-Token': "95c57c62-807f-4839-811b-30dcda2aea11"
-    }
+
     querystring = {"LanguageCode": "", "LocationTypeIDs": str(district_id), "LocationType": "District",
                    "BinStatus": "10", "QtyStatus": "4", "BlindInventory": "", "CategoryNumber": ""}
-    inventory_response = requests.request("GET", url_for_inventory, data=payload1, headers=headers1, params=querystring)
+    inventory_response = requests.request("GET", url_for_inventory, data=payload1, headers=headers, params=querystring)
+
+    #endregion
+
     # Below is the list of columns that you need to pull the value from Json output so the data can be inserted
     # into the database
     inventory_list_columns = ['DistrictName', 'RegionName', 'ChannelName', 'WriteOff', 'NoSale', 'VendorPartNumber',
@@ -163,7 +193,7 @@ district_id_values = get_district_ids()
 
 # The below loop is going through those various districts and get's the inventory and stores them in the DB
 for district in district_id_values:
-    insert_query, inventory_row_data = get_inventory_product_list_for_individual_stores(str(district))
+    insert_query, inventory_row_data = get_inventory_product_list_for_individual_districts(str(district))
     # The below statement is going to insert the left out rows that we did not insert above
     my_cursor.executemany(insert_query, inventory_row_data)
     my_db.commit()
