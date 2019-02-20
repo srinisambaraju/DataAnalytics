@@ -41,5 +41,6 @@ session.run(initialize)
 training_data = np.load('tf_test1.npz')
 
 for i in range(100):
-    _, curr_loss = session.run([optimize,mean_loss], feed_dict={inputs:training_data['inputs'], targets: training_data['targets']})
+    _, curr_loss = session.run([optimize, mean_loss], feed_dict={inputs: training_data['inputs'], targets:
+                                                                 training_data['targets']})
     print(curr_loss)

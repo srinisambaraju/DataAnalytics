@@ -36,4 +36,22 @@ headers = {
 
 response = requests.request("GET", url, data=payload, headers=headers, params=querystring)
 
-print(response.text)
+# print(response.json())
+
+url = "https://dataconnect.iqmetrix.net/inventory/ProductMasterList"
+
+querystring = {"LanguageCode": "", "StoreIDLoggedIn": "1", "ProductType": "0",
+               "SearchMethod": "0", "SearchCriteria": "10", "Enabled": "2", "CompanyID": ""}
+
+payload = ""
+headers = {
+    'cache-control': "no-cache",
+    'Postman-Token': "299c9d03-b032-4319-8090-7942a1756200"
+    }
+
+response = requests.request("GET", url, data=payload, headers=headers, params=querystring)
+
+print(len(response.json()))
+
+for item in response.json():
+    print(item)
