@@ -125,7 +125,7 @@ def get_inventory_product_list_for_individual_districts(district_id):
                    "BinStatus": "10", "QtyStatus": "4", "BlindInventory": "", "CategoryNumber": ""}
     inventory_response = requests.request("GET", url_for_inventory, data=payload1, headers=headers, params=querystring)
 
-    #endregion
+    # endregion
 
     # Below is the list of columns that you need to pull the value from Json output so the data can be inserted
     # into the database
