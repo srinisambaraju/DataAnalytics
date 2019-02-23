@@ -7,6 +7,8 @@ from tensorflow.examples.tutorials.mnist import input_data
 
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
+
+
 input_size = 784
 output_size = 10
 hidden_layer_size = 50
@@ -126,7 +128,7 @@ test_accuracy = sess.run([accuracy], feed_dict={inputs: input_batch, targets: ta
 # Test accuracy is a list with 1 value, so we want to extract the value from it, using x[0]
 # Uncomment the print to see how it looks before the manipulation
 # print (test_accuracy)
-test_accuracy_percent = test_accuracy[0] * 100.
+test_accuracy_percent = test_accuracy * 100.
 
 # Print the test accuracy formatted in percentages
 print('Test accuracy: '+'{0:.2f}'.format(test_accuracy_percent)+'%')
