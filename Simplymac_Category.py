@@ -1,6 +1,4 @@
 import requests
-
-
 import mysql.connector
 
 # The below is for connecting to mySQL, use your login and password and the database name
