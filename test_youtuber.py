@@ -21,5 +21,5 @@ class Testyoutuber(unittest.TestCase):
         self.assertEqual('http://www.youtube.com', youtuber.get_channel())
 
 
-if __name__ == '__main__':
-    unittest.main(testRunner=xmlrunner.XMLTestRunner(output='./test_results'))
+# if __name__ == '__main__':
+#    unittest.main(testRunner=xmlrunner.XMLTestRunner(output='./test_results'))
