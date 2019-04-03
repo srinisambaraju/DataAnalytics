@@ -20,11 +20,18 @@ headers = {
 
 payload = ""
 
-with open('c:\\srini\\productmaster.json') as f:
-    data = json.load(f)
-# json_output = json.load('c:\\srini\\productmaster.json')
+response_output = requests.get('https://dataconnect.iqmetrix.net/inventory/ProductMasterList?LanguageCode='
+                               '&StoreIDLoggedIn=1&ProductType=0&SearchMethod=0&SearchCriteria=10&CompanyID=14205'
+                               '&Enabled=2', data=payload, headers=headers)
 
-for item in data:
+# with open('c:\\srini\\productmaster.json') as f:
+#     data = json.load(f)
+# json_output = json.load('c:\\srini\\productmaster.json')
+row_count = 0
+print('The no of rows fetched from product master are {}'.format(len(response_output.json())))
+for item in response_output:
     print(item)
-    break
+    row_count += 1
+    if 100 < row_count:
+        break
 
