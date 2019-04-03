@@ -1,6 +1,7 @@
 import numpy as np
 import requests
 import mysql.connector
+import os.path
 my_db = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -111,7 +112,7 @@ print('str 0 is {}', str1[0])
 print('str 1 is {}', str1[1])
 print('str 2 is {}', str1[2])
 print('str 3 is {}', str1[3])
-print('str 4 is {}', str1[4])
+# print('str 4 is {}', str1[4])
 st_tuple = ()
 row_data = []
 st_tuple = (1, None, 'Inventory', 'Inventory', None, None, None, None, None, None, None)
@@ -151,3 +152,8 @@ print(sql_insert_query)
 # my_cursor.executemany(sql_insert_query, row_data)
 # my_db.commit()
 
+my_file = 'C://Downloads//AttDashboard/*.zip'
+if os.path.isfile(my_file):
+    print('Exits')
+else:
+    print('not exists')

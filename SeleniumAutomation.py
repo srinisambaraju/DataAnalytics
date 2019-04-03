@@ -1,5 +1,6 @@
 from selenium import webdriver
 import os.path
+import time
 from pathlib import Path
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -48,7 +49,8 @@ options.add_experimental_option("prefs", chrome_options)
 
 # profile.set_preference("browser.download.dir", "/home/i-06/Downloads")
 
-# driver = webdriver.Firefox(firefox_options=options, firefox_profile=profile)
+# driver = webdriver.Firefox() # firefox_options=options, firefox_profile=profile)
+
 driver = webdriver.Chrome(chrome_options=options)
 driver.implicitly_wait(50)
 
@@ -100,8 +102,10 @@ current_elem_download = driver.find_element_by_xpath(
     '/html/body/table[2]/tbody/tr/td[2]/div/table/tbody/tr/td[1]/table/'
     'tbody/tr/td/input').click()
 file_exists = False
-my_file = 'C:/Downloads/AttDashboard/*.zip'
-while not file_exists:
-    if os.path.isfile(my_file):
-        file_exists = True
+my_file = 'C://Downloads//AttDashboard//*.zip'
+# while not file_exists:
+# #     if os.path.exists(my_file)
+# #         file_exists = True
+while not os.path.exists(my_file):
+    time.sleep(1)
 driver.close()
